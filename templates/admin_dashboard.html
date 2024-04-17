@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>CROP RECOMMENDATION</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/fevicon.png') }}" type="image/gif" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mCustomScrollbar.min.css') }}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Fancybox -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            max-width: 1500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        #response {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn-success:hover {
+            background-color: #5cb85c; /* Light green color */
+            border-color: #4cae4c; /* Adjust border color accordingly */
+        }
+        .bg-dark-green {
+            background-color: #08580E; /* Dark green color */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+</head>
+<body class="main-layout ">
+
+        <header>
+            <div class="header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col logo_section">
+                            <div class="full">
+                                <div class="center-desk">
+                                    <div class="logo">
+                                        <a href="index.html"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="#"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                            <div class="location_icon_bottum_tt">
+                                <ul>
+                                    <li><img src="{{ url_for('static', filename='icon/email1.png') }}" />mit.students.g24@gmail.com</li>
+    
+                                    <li><img src="{{ url_for('static', filename='icon/call1.png') }}" />(+91)8791152859</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 location_icon_bottum">
+                           <div class="row">
+                                <div class="col-md-8 ">
+                                    <div class="menu-area">
+                                        <div class="limit-box">
+                                            <nav class="main-menu">
+                                                <ul class="menu-area-main">
+                                                    <li class="active"> <a href="/">Home</a> </li>
+                                                    <li><a href="/admin_login">Welcome Admin</a></li>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <div class="container mt-5">
+            <div class="text-center mb-4">
+                <h2 class="mb-4">Admin Dashboard: All records of data entered by farmers</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="dataTable">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>N</th>
+                            <th>P</th>
+                            <th>K</th>
+                            <th>Temperature</th>
+                            <th>Humidity</th>
+                            <th>pH</th>
+                            <th>Rainfall</th>
+                            <th>City</th>
+                            <th>Prediction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td>{{ row[4] }}</td>
+                            <td>{{ row[5] }}</td>
+                            <td>{{ row[6] }}</td>
+                            <td>{{ row[7] }}</td>
+                            <td>{{ row[8] }}</td>
+                            <td>{{ row[9] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-primary" id="exportBtn">Export to Excel</button>
+            </div>
+        </div>
+        
+
+    <footer>       
+        <div class="footer-bottom bg-dark-green text-light py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p class="mb-0">© 2024 All Rights Reserved. Design by <a href="https://html.design/" class="text-light">MIT_Students_G24</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </footer>
+
+    <!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.4/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Function to export table data to Excel
+    function exportToExcel() {
+        const table = document.getElementById('dataTable');
+        const wb = XLSX.utils.table_to_book(table, {sheet: "Sheet JS"});
+        XLSX.writeFile(wb, 'table_data.xlsx');
+    }
+
+    // Attach click event listener to the export button
+    document.getElementById('exportBtn').addEventListener('click', exportToExcel);
+</script>
+
+</body>
+</html>
